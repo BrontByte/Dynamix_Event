@@ -1,5 +1,5 @@
 # Dynamix_Event
-Dynamicx 游戏活动脚本  
+Dynamix 游戏活动脚本  
 ====  
 能做什么:
 - 当你缺盘子时 把体力转换成最多的盘子
