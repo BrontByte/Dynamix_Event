@@ -3,12 +3,14 @@
 import requests
 import json
 import time
+import winsound
+import datetime
 
-autoBuy = False
-autoRetry = False
+autoBuy = True
+autoRetry = True
+credittype = "PAID"                 #金体力还是蓝体力 PAID是金体力 FREE是蓝体力
 myCookie = ''
 myUA = ''
-myConfig = 'credittype=PAID&mapid=_map_soularmy_M&eventid=1423&assist=&avator=_char_SoulArmy'
 
 headers = {'Expect': '100-continue',
            'X-Unity-Version': '2018.3.14f1',
@@ -48,6 +50,9 @@ def resultGame(gameCode):
     print("碎盘子", json.loads(response.text)['eventresult']['frag'])
     print("你抽到了:", json.loads(response.text)['eventresult']['itemid'])
     print("\t\t\t\t\t\t\t\t\t出货",json.loads(response.text)['eventresult']['itemRarity'])
+    if (json.loads(response.text)['eventresult']['itemRarity']==1):
+        print("恭喜出货!")
+        winsound.Beep(2000, 500)
     return (json.loads(response.text)['eventresult']['itemRarity'] == 1)
 
 def buyCredit():
@@ -61,8 +66,38 @@ def buyCredit():
     requests.post(url=url, data=data, headers=headers, verify=False)
     return 0       #懒得做判断
 
+def getConfig():
+    t = time.time()
+    events = []
+    maps = []
+    url = 'http://dynamix-server.c4-cat.com//event/userdata'
+    data = ''
+    
+    response = requests.get(url=url, data=data, headers=headers, verify=False)
+    print(response.text)
+    for num in json.loads(response.text)["events"]:
+        if int(num["timestart"])<int(round(t * 1000)) and int(num["timeend"])>int(round(t * 1000)):
+            if num["info"]["eventType"] =="REGULAR":
+                events.append(num)
+                print(len(events),num["info"]["songid"],num["eventid"])
+
+    num2 = int(input("请选择Event"))-1
+    #print (events[num2]["eventid"])
+    for num3 in events[num2]["info"]["maps"]:
+        maps.append(num3)
+        print(len(maps),num3["mapid"])
+
+    num4 = int(input("请选择难度")) - 1
+    print(events[num2]["eventid"],maps[num4]["mapid"])
+
+    return 'credittype='+credittype+'&mapid=' + \
+        maps[num4]["mapid"] + '&eventid=' + \
+        str(events[num2]["eventid"])+'&assist=&avator=_avator_d'#这里是默认角色
+
+
+myConfig = getConfig()
 if myCookie == '' or myUA == '' or myConfig == '':
-    print("请先抓包获取Cookie,User-Agent,enter数据包的data")
+    print("请先抓包获取Cookie,User-Agent")
     exit()
 while True:
     enterGame(myConfig)
