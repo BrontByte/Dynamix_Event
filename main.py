@@ -6,8 +6,8 @@ import time
 import winsound
 import datetime
 
-autoBuy = True
-autoRetry = True
+autoBuy = False
+autoRetry = False
 credittype = "PAID"                 #金体力还是蓝体力 PAID是金体力 FREE是蓝体力
 myCookie = ''
 myUA = ''
@@ -74,7 +74,6 @@ def getConfig():
     data = ''
     
     response = requests.get(url=url, data=data, headers=headers, verify=False)
-    print(response.text)
     for num in json.loads(response.text)["events"]:
         if int(num["timestart"])<int(round(t * 1000)) and int(num["timeend"])>int(round(t * 1000)):
             if num["info"]["eventType"] =="REGULAR":
@@ -95,10 +94,11 @@ def getConfig():
         str(events[num2]["eventid"])+'&assist=&avator=_avator_d'#这里是默认角色
 
 
-myConfig = getConfig()
-if myCookie == '' or myUA == '' or myConfig == '':
+
+if myCookie == '' or myUA == '':
     print("请先抓包获取Cookie,User-Agent")
     exit()
+myConfig = getConfig()
 while True:
     enterGame(myConfig)
     if autoRetry:
