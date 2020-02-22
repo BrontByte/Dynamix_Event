@@ -16,11 +16,8 @@ Dynamix 游戏活动脚本
  connect.sid=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 - 抓取User-Agent 放到 myUA 后面 例如:
  Dalvik/2.1.0 (Linux; U; Android 10; Mi 10 Build/PQ3B.200207.001)
-- 手机进入一次Event 把body数据包的Request body 复制到 myConfig里 例如:
- credittype=PAID&mapid=_map_ngan4mui4faa1_H&eventid=1470&assist=&avator=_char_SoulArmy<br>  
 ![](https://github.com/BrontByte/Dynamix_Event/raw/master/演示.jpg)  
-![](https://github.com/BrontByte/Dynamix_Event/raw/master/演示2.jpg)  
-- 运行脚本
+- 运行脚本,选择活动曲和难度
 ![](https://github.com/BrontByte/Dynamix_Event/raw/master/运行.jpg)  
 ##祝各位都能出货 越来越强
 请勿滥用脚本!谢谢!
